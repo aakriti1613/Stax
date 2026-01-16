@@ -2,6 +2,13 @@
 
 ## ✅ Completed Features
 
+<img width="1613" height="786" alt="image" src="https://github.com/user-attachments/assets/6c444d33-7b82-434f-9519-fdc3b6ac878a" />
+<img width="1890" height="589" alt="image" src="https://github.com/user-attachments/assets/67bbc3a0-bcba-4716-9852-ba6a773f3252" />
+<img width="1690" height="757" alt="image" src="https://github.com/user-attachments/assets/d468ff70-eff0-4435-8fb3-defb8a94a3bb" />
+<img width="1488" height="643" alt="image" src="https://github.com/user-attachments/assets/33ef05ac-fa15-481a-add0-794a46f07019" />
+<img width="1845" height="605" alt="image" src="https://github.com/user-attachments/assets/c8a96d1a-8749-495d-a2c0-396df5f41309" />
+
+
 ### Core Learning Flow
 - ✅ Visual Journey Map with animated subject cards
 - ✅ Concept Learning Phase with AI-generated theory
@@ -160,5 +167,6 @@ The platform is **fully functional** and ready for:
 **Status**: ✅ **Production Ready** (with Gemini API key)
 
 **Next Steps**: Add database, authentication, and real code execution for full production deployment.
+
 
 
