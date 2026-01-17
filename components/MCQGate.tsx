@@ -20,9 +20,10 @@ interface MCQGateProps {
   subject: string
   unit: string
   onPass: () => void
+  isFirstUnit?: boolean
 }
 
-export default function MCQGate({ subject, unit, onPass }: MCQGateProps) {
+export default function MCQGate({ subject, unit, onPass, isFirstUnit = false }: MCQGateProps) {
   const [mcqs, setMcqs] = useState<MCQ[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
@@ -40,15 +41,65 @@ export default function MCQGate({ subject, unit, onPass }: MCQGateProps) {
   const fetchMCQs = async () => {
     try {
       setLoading(true)
+      
+      // Use database for first units, Gemini for others
+      if (isFirstUnit) {
+        try {
+          const { getMCQsForSubtopic } = await import('@/lib/mcqDatabase')
+          const unitParts = unit.split(' - ')
+          const mainUnit = unitParts[0]
+          const subtopic = unitParts[1] || unitParts[0]
+          
+          const dbMCQs = getMCQsForSubtopic(subject, mainUnit, subtopic)
+          if (dbMCQs.length > 0) {
+            // Convert database format to component format
+            const formattedMCQs = dbMCQs.map(mcq => ({
+              question: mcq.question,
+              options: mcq.options,
+              correctAnswer: mcq.correctAnswer,
+              explanation: mcq.explanation,
+              wrongExplanations: {},
+              difficulty: mcq.difficulty,
+            }))
+            setMcqs(formattedMCQs)
+            setLoading(false)
+            return
+          }
+        } catch (dbError) {
+          console.log('Database MCQs not found, falling back to Gemini')
+        }
+      }
+      
+      // Fallback to Gemini API
       const response = await axios.post('/api/gemini/mcq', {
         subject,
         unit,
         concept: unit, // Using unit as concept for now
       })
-      setMcqs(response.data.mcqs)
-    } catch (error) {
+      
+      if (response.data) {
+        // Handle both success and error responses
+        if (response.data.mcqs && Array.isArray(response.data.mcqs) && response.data.mcqs.length > 0) {
+          console.log('✅ Received MCQs:', response.data.mcqs.length)
+          setMcqs(response.data.mcqs)
+          if (response.data.error) {
+            toast.warning(response.data.error)
+          }
+        } else if (response.data.error) {
+          throw new Error(response.data.error)
+        } else {
+          throw new Error('No MCQs in response')
+        }
+      } else {
+        throw new Error('Invalid response format')
+      }
+    } catch (error: any) {
       console.error('Error fetching MCQs:', error)
-      toast.error('Failed to load questions')
+      const errorMsg = error.response?.data?.error || error.message || 'Failed to load questions'
+      toast.error(errorMsg)
+      
+      // Set empty array so component shows retry button
+      setMcqs([])
     } finally {
       setLoading(false)
     }

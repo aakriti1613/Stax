@@ -26,7 +26,24 @@ export default function UnitPage() {
   const [xp, setXp] = useState(0)
 
   if (!subject || !unit) {
-    return <div>Unit not found</div>
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center glass-card p-8"
+        >
+          <h1 className="text-4xl font-bold text-red-400 mb-4">Unit not found</h1>
+          <p className="text-gray-400 mb-6">The unit you're looking for doesn't exist.</p>
+          <button
+            onClick={() => router.push(`/subject/${subjectId}`)}
+            className="btn-primary"
+          >
+            Go Back to {subject?.name || 'Subject'}
+          </button>
+        </motion.div>
+      </div>
+    )
   }
 
   const handleLearningComplete = () => {

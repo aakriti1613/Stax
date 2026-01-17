@@ -22,6 +22,11 @@ interface CodingProblem {
     output: string
     explanation: string
   }>
+  testCases?: Array<{
+    input: string
+    output: string
+    description: string
+  }>
   constraints: string[]
   hints: string[]
 }
@@ -37,14 +42,16 @@ interface Hint {
 interface CodingChallengeProps {
   subject: string
   unit: string
+  subtopic?: string
+  difficulty?: 'Basic' | 'Medium' | 'Advanced'
   onComplete: () => void
 }
 
 type Difficulty = 'Basic' | 'Medium' | 'Advanced'
 
-export default function CodingChallenge({ subject, unit, onComplete }: CodingChallengeProps) {
+export default function CodingChallenge({ subject, unit, subtopic, difficulty: propDifficulty, onComplete }: CodingChallengeProps) {
   const [problem, setProblem] = useState<CodingProblem | null>(null)
-  const [difficulty, setDifficulty] = useState<Difficulty>('Basic')
+  const [difficulty, setDifficulty] = useState<Difficulty>(propDifficulty || 'Basic')
   const [code, setCode] = useState('')
   const [loading, setLoading] = useState(true)
   const [executing, setExecuting] = useState(false)
@@ -93,21 +100,45 @@ int main() {
   const fetchProblem = async () => {
     try {
       setLoading(true)
+      // Use subtopic prop if provided, otherwise default to 'intro'
+      const subtopicName = subtopic || 'intro'
+      
+      console.log('💻 Fetching coding problem:', { subject, unit, subtopic: subtopicName, difficulty })
+      
       const response = await axios.post('/api/gemini/coding-problem', {
         subject,
         unit,
+        subtopic: subtopicName,
         difficulty,
       })
-      setProblem(response.data.problem)
-      setCode(languageTemplates[language])
-      setError(null)
-      setTestResults([])
-      setHint(null)
-      setShowHint(false)
-      setCurrentHintIndex(0)
-    } catch (error) {
+      
+      if (response.data) {
+        if (response.data.problem) {
+          console.log('✅ Received coding problem:', response.data.problem.title)
+          setProblem(response.data.problem)
+          setCode(languageTemplates[language])
+          setError(null)
+          setTestResults([])
+          setHint(null)
+          setShowHint(false)
+          setCurrentHintIndex(0)
+          
+          if (response.data.error) {
+            toast.warning(response.data.error)
+          }
+        } else if (response.data.error) {
+          throw new Error(response.data.error)
+        } else {
+          throw new Error('No problem in response')
+        }
+      } else {
+        throw new Error('Invalid response format')
+      }
+    } catch (error: any) {
       console.error('Error fetching problem:', error)
-      toast.error('Failed to load problem')
+      const errorMsg = error.response?.data?.error || error.message || 'Failed to load problem'
+      toast.error(errorMsg)
+      setProblem(null)
     } finally {
       setLoading(false)
     }
@@ -200,11 +231,26 @@ int main() {
         subject,
         unit,
       })
-      setHint(response.data.hint)
-      setShowHint(true)
-    } catch (err) {
+      
+      if (response.data && response.data.hint) {
+        setHint(response.data.hint)
+        setShowHint(true)
+        if (response.data.error) {
+          toast.warning(response.data.error)
+        }
+      } else {
+        throw new Error('No hint in response')
+      }
+    } catch (err: any) {
       console.error('Error fetching hint:', err)
-      toast.error('Failed to get hint')
+      const errorMsg = err.response?.data?.error || err.message || 'Failed to get hint'
+      toast.error(errorMsg)
+      
+      // Set fallback hint so user still gets help
+      if (err.response?.data?.hint) {
+        setHint(err.response.data.hint)
+        setShowHint(true)
+      }
     } finally {
       setHintLoading(false)
     }
@@ -288,27 +334,83 @@ int main() {
           </div>
 
           {/* Examples */}
-          <div className="glass-card p-6">
-            <h3 className="text-xl font-bold mb-4">Examples</h3>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="glass-card p-6"
+          >
+            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+              <span className="text-neon-cyan">📝</span>
+              Examples
+            </h3>
             <div className="space-y-4">
               {problem.examples.map((ex, idx) => (
-                <div key={idx} className="bg-dark-bg p-4 rounded-lg">
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="bg-dark-bg p-4 rounded-lg border border-neon-cyan/20 hover:border-neon-cyan/50 transition-colors"
+                >
                   <div className="mb-2">
-                    <span className="text-sm text-gray-400">Input:</span>
-                    <pre className="text-neon-green mt-1">{ex.input}</pre>
+                    <span className="text-sm text-gray-400 font-bold">Input:</span>
+                    <pre className="text-neon-green mt-1 bg-black/30 p-2 rounded">{ex.input}</pre>
                   </div>
                   <div className="mb-2">
-                    <span className="text-sm text-gray-400">Output:</span>
-                    <pre className="text-neon-cyan mt-1">{ex.output}</pre>
+                    <span className="text-sm text-gray-400 font-bold">Output:</span>
+                    <pre className="text-neon-cyan mt-1 bg-black/30 p-2 rounded">{ex.output}</pre>
                   </div>
                   <div>
-                    <span className="text-sm text-gray-400">Explanation:</span>
-                    <p className="text-gray-300 text-sm mt-1">{ex.explanation}</p>
+                    <span className="text-sm text-gray-400 font-bold">Explanation:</span>
+                    <p className="text-gray-300 text-sm mt-1 leading-relaxed">{ex.explanation}</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
+
+          {/* Test Cases */}
+          {problem.testCases && problem.testCases.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="glass-card p-6 border-2 border-neon-purple/30"
+            >
+              <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <span className="text-neon-purple">🧪</span>
+                Test Cases
+              </h3>
+              <div className="space-y-3">
+                {problem.testCases.map((testCase, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1 }}
+                    className="bg-neon-purple/10 p-4 rounded-lg border border-neon-purple/30"
+                  >
+                    <div className="text-sm text-neon-purple font-bold mb-2">
+                      Test Case {idx + 1}: {testCase.description}
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <span className="text-gray-400">Input:</span>
+                        <pre className="text-neon-green mt-1 bg-black/30 p-2 rounded text-xs">{testCase.input}</pre>
+                      </div>
+                      <div>
+                        <span className="text-gray-400">Expected Output:</span>
+                        <pre className="text-neon-cyan mt-1 bg-black/30 p-2 rounded text-xs">{testCase.output}</pre>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
 
           {/* Constraints */}
           <div className="glass-card p-6">

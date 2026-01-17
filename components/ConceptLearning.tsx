@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import axios from 'axios'
 import { CheckCircle2, Loader2, Code2, Lightbulb } from 'lucide-react'
 import confetti from 'canvas-confetti'
+import toast from 'react-hot-toast'
 
 interface TheoryData {
   title: string
@@ -21,10 +22,11 @@ interface TheoryData {
 interface ConceptLearningProps {
   subject: string
   unit: string
+  subtopic?: string
   onComplete: () => void
 }
 
-export default function ConceptLearning({ subject, unit, onComplete }: ConceptLearningProps) {
+export default function ConceptLearning({ subject, unit, subtopic, onComplete }: ConceptLearningProps) {
   const [theory, setTheory] = useState<TheoryData | null>(null)
   const [loading, setLoading] = useState(true)
   const [currentSection, setCurrentSection] = useState(0)
@@ -32,18 +34,56 @@ export default function ConceptLearning({ subject, unit, onComplete }: ConceptLe
 
   useEffect(() => {
     fetchTheory()
-  }, [])
+  }, [subject, unit, subtopic])
 
   const fetchTheory = async () => {
     try {
       setLoading(true)
+      // Use subtopic prop if provided, otherwise default to 'intro'
+      const subtopicName = subtopic || 'intro'
+      
+      console.log('📚 Fetching theory:', { subject, unit, subtopic: subtopicName })
+      
       const response = await axios.post('/api/gemini/theory', {
         subject,
         unit,
+        subtopic: subtopicName,
       })
-      setTheory(response.data.theory)
-    } catch (error) {
+      
+      console.log('📚 Theory API Response:', {
+        hasTheory: !!response.data?.theory,
+        hasError: !!response.data?.error,
+        title: response.data?.theory?.title
+      })
+      
+      if (response.data) {
+        // Handle both success and error responses
+        if (response.data.theory) {
+          console.log('✅ Theory loaded from database!')
+          console.log('Title:', response.data.theory.title)
+          console.log('Sections:', response.data.theory.sections?.length || 0)
+          setTheory(response.data.theory)
+          if (response.data.error) {
+            toast.warning(response.data.error)
+          }
+        } else if (response.data.error) {
+          // Show error message
+          console.error('❌ Theory error:', response.data.error)
+          toast.error(response.data.error)
+          throw new Error(response.data.error || 'Failed to load theory')
+        } else {
+          throw new Error('Invalid response format')
+        }
+      } else {
+        throw new Error('No response data')
+      }
+    } catch (error: any) {
       console.error('Error fetching theory:', error)
+      const errorMessage = error.response?.data?.error || error.message || 'Failed to load theory content'
+      toast.error(errorMessage)
+      
+      // Don't set fallback - let user see the error and retry
+      setTheory(null)
     } finally {
       setLoading(false)
     }
@@ -98,6 +138,7 @@ export default function ConceptLearning({ subject, unit, onComplete }: ConceptLe
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
         className="text-center"
       >
         <h1 className="text-4xl font-bold neon-text mb-4">{theory.title}</h1>
@@ -121,10 +162,11 @@ export default function ConceptLearning({ subject, unit, onComplete }: ConceptLe
       {/* Current Section */}
       <motion.div
         key={currentSection}
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -50 }}
-        className="glass-card p-8 space-y-6"
+        initial={{ opacity: 0, x: 50, rotateY: -15 }}
+        animate={{ opacity: 1, x: 0, rotateY: 0 }}
+        exit={{ opacity: 0, x: -50, rotateY: 15 }}
+        transition={{ duration: 0.5, type: 'spring', stiffness: 100 }}
+        className="glass-card p-8 space-y-6 hover:shadow-[0_0_30px_rgba(0,255,255,0.3)] transition-shadow"
       >
         <div className="flex items-center gap-3 mb-4">
           <Lightbulb className="w-8 h-8 text-neon-cyan" />

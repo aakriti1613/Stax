@@ -17,11 +17,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ hint })
   } catch (error: any) {
     console.error('Error generating hint:', error)
+    
+    // Return error - component will handle fallback
     return NextResponse.json(
-      { error: error.message || 'Failed to generate hint' },
+      { 
+        error: error.message || 'Failed to generate hint. Please check your Gemini API key and try again.',
+        hint: null
+      },
       { status: 500 }
     )
   }
 }
+
 
 

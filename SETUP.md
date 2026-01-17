@@ -1,5 +1,34 @@
 # 🚀 Quick Setup Guide
 
+## New Feature: Personalized Assignments with AI Verification
+
+The platform now includes **Personalized Assignment Generation** with **AI Question Verification** using DeepSeek Coder via Hugging Face!
+
+### Flow: Theory → MCQ → Basic → Medium → Hard → **Assignment** (with verification)
+
+### Setup Hugging Face API (Optional but Recommended)
+
+1. **Create Hugging Face Account**
+   - Visit [https://huggingface.co](https://huggingface.co)
+   - Sign up for a free account
+
+2. **Get API Token**
+   - Go to Settings → Access Tokens
+   - Create a new token (read access is enough)
+   - Copy the token
+
+3. **Add to `.env.local`**
+   ```env
+   HUGGINGFACE_API_KEY=your_huggingface_token_here
+   DEEPSEEK_MODEL_ID=deepseek-ai/deepseek-coder-6.7b-instruct
+   ```
+
+**Note:** If Hugging Face API key is not set, assignments will still be generated but verification will be skipped.
+
+---
+
+# 🚀 Quick Setup Guide
+
 ## Step 1: Install Dependencies
 
 ```bash
@@ -80,5 +109,9 @@ npm install
 ---
 
 **Need Help?** Check the main README.md for detailed troubleshooting.
+
+
+
+
 
 
