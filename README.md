@@ -4,8 +4,8 @@
 
 A visually stunning, game-like learning ecosystem where users progress through knowledge like a journey. Built with Next.js, TypeScript, Gemini AI, and modern animations.
 
-![Platform Preview](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=AI+Tutor+Platform+Homepage)
-*Add your homepage screenshot here*
+![Platform Preview](<img width="1790" height="872" alt="image" src="https://github.com/user-attachments/assets/2210693a-7270-4d7f-acbe-ebf07ae4264f" />
+)
 
 ---
 
@@ -35,8 +35,8 @@ The platform follows a structured learning path that ensures comprehensive under
 - Visual indicators for completed phases
 - Snake-like path connecting all learning phases
 
-![Journey Map](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=Gamified+Journey+Map)
-*Add screenshot of the journey map here*
+![Journey Map](<img width="1862" height="847" alt="image" src="https://github.com/user-attachments/assets/2067e0da-6067-4729-8ee5-642feeaed730" />
+)
 
 #### 2. **Theory Learning Phase**
 - AI-generated comprehensive theory content
@@ -46,8 +46,8 @@ The platform follows a structured learning path that ensures comprehensive under
 - Smooth scroll animations
 - Progress tracking
 
-![Theory Learning](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=Theory+Learning+Interface)
-*Add screenshot of theory learning interface here*
+![Theory Learning](<img width="1732" height="749" alt="image" src="https://github.com/user-attachments/assets/1564d337-35dd-411c-ad56-bd52fe9bd985" />
+)
 
 #### 3. **MCQ Gate (Progression Gate)**
 - Mandatory MCQ test to unlock coding challenges
