@@ -55,9 +55,6 @@ The platform follows a structured learning path that ensures comprehensive under
 - Re-teaching with simplified explanations
 - Retry mechanism with new questions
 
-![MCQ Gate](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=MCQ+Gate+Interface)
-*Add screenshot of MCQ interface here*
-
 #### 4. **Coding Challenges - Progressive Difficulty**
 
 ##### Basic Level
@@ -66,17 +63,12 @@ The platform follows a structured learning path that ensures comprehensive under
 - Step-by-step guidance
 - XP reward: 30 points
 
-![Basic Coding](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=Basic+Coding+Challenge)
-*Add screenshot of basic coding challenge here*
-
 ##### Medium Level
 - Intermediate problem complexity
 - Multiple approaches possible
 - Requires deeper understanding
 - XP reward: 40 points
 
-![Medium Coding](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=Medium+Coding+Challenge)
-*Add screenshot of medium coding challenge here*
 
 ##### Hard Level
 - Advanced problem-solving
@@ -84,8 +76,6 @@ The platform follows a structured learning path that ensures comprehensive under
 - Optimization challenges
 - XP reward: 50 points
 
-![Hard Coding](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=Hard+Coding+Challenge)
-*Add screenshot of hard coding challenge here*
 
 #### 5. **Personalized Assignment Generation**
 - AI-generated custom coding problems after completing hard level
@@ -95,8 +85,6 @@ The platform follows a structured learning path that ensures comprehensive under
 - Comprehensive test case validation
 - Detailed feedback and suggestions
 
-![Assignment](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=Personalized+Assignment)
-*Add screenshot of assignment interface here*
 
 ### 🎯 Gamification Features
 
@@ -112,8 +100,6 @@ The platform follows a structured learning path that ensures comprehensive under
 - Epic, Rare, Legendary rarity levels
 - Badge collection display in profile
 
-![Badges](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=Badge+Collection)
-*Add screenshot of badges section here*
 
 #### Profile & Stats
 - Comprehensive user profile
@@ -126,8 +112,6 @@ The platform follows a structured learning path that ensures comprehensive under
 - Streak tracking
 - Average time per problem
 
-![Profile](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=User+Profile)
-*Add screenshot of profile page here*
 
 ### 🏆 Competitive Features
 
@@ -138,8 +122,6 @@ The platform follows a structured learning path that ensures comprehensive under
 - Time-based challenges
 - Prize system (coming soon)
 
-![Contests](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=Coding+Contests)
-*Add screenshot of contests page here*
 
 #### Duels (1v1)
 - Challenge other learners
@@ -148,8 +130,6 @@ The platform follows a structured learning path that ensures comprehensive under
 - Win/loss tracking
 - Duel history
 
-![Duels](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=1v1+Duels)
-*Add screenshot of duels page here*
 
 #### Standoffs (3v3)
 - Team-based competitions
@@ -157,8 +137,6 @@ The platform follows a structured learning path that ensures comprehensive under
 - Collaborative problem solving
 - Team rankings
 
-![Standoffs](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=3v3+Standoffs)
-*Add screenshot of standoffs page here*
 
 #### Marathons
 - Extended coding challenges
@@ -166,8 +144,6 @@ The platform follows a structured learning path that ensures comprehensive under
 - Endurance testing
 - Marathon leaderboards
 
-![Marathons](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=Coding+Marathons)
-*Add screenshot of marathons page here*
 
 ### 💻 Code Editor Features
 
@@ -180,8 +156,6 @@ The platform follows a structured learning path that ensures comprehensive under
 - Error detection
 - Multi-language support (C++, Java, Python, JavaScript)
 
-![Code Editor](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=Monaco+Code+Editor)
-*Add screenshot of code editor here*
 
 #### AI-Powered Hints
 - Line-by-line code analysis
@@ -190,8 +164,6 @@ The platform follows a structured learning path that ensures comprehensive under
 - Learning-focused guidance
 - Progressive hint system
 
-![AI Hints](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=AI+Hints+System)
-*Add screenshot of AI hints feature here*
 
 #### Real-Time Code Execution
 - Judge0 integration for code execution
@@ -212,8 +184,6 @@ The platform follows a structured learning path that ensures comprehensive under
 - **Error Handling** with user-friendly messages
 - **Toast Notifications** for feedback
 
-![UI Design](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=UI+Design+Showcase)
-*Add screenshot showcasing UI design here*
 
 ### 📚 Subjects Covered
 
@@ -224,8 +194,6 @@ The platform follows a structured learning path that ensures comprehensive under
 - **Object-Oriented Programming (OOPS)** - Principles, Design Patterns
 - **Database Management Systems (DBMS)** - SQL, Normalization, Transactions
 
-![Subjects](https://via.placeholder.com/1200x600/0a0a0f/00ffff?text=Subject+Selection)
-*Add screenshot of subject selection page here*
 
 ---
 
